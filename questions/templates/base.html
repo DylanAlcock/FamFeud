@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fam Feud</title>
+    <link rel="stylesheet" href="{% static 'feud.css' %}">
+</head>
+<body>
+	<div class="question">
+			<h1 id="questionText" class="questionText">{{question1.title}}</h1>
+
+	</div>
+
+	<div id="scoreboard" class="scoreboard">0</div>
+
+	<div class="bodyContainer">
+		
+		<span class="teamIndicator1">
+			<span>Team 1</span>
+			<br/><br/>
+			<span id="score1" class="score1">0</span>
+		</span>
+
+		<span id="answerContainer" class="container">
+	        <div id="alarmMsg"></div>
+
+			{% for answer in question1.answer_set.all %}
+				<div class="card" id="flip" onclick="flip2(event)">
+					<div class="front">{{forloop.counter}}</div>
+	            	<div class="back" id="back">
+	            		<span class="answer">{{answer}}</span>
+	            		<span class="answerValue">{{answer.value}}</span>
+	            	</div>
+	            </div>
+	        {% endfor %}
+
+        </span>
+
+        <span class="teamIndicator2">
+	        <span>Team 2</span>
+	        <br/><br/>
+	        <span id="score2" class="score2">0</span>
+        </span>
+
+   		<div class="guessContainer">
+   			<div id="turn">It's team 2's turn</div>
+    		<input type="text" id="guess" name="guess" spellcheck="true">
+    		<button id="guessBtn" onclick="guess()">Guess</button>
+    		<div id="hide" hidden>Your guess must be at least 3 letters</div>
+    	</div>
+	</div>
+
+
+	<script type="text/javascript" src="{% static 'feud.js' %}"></script>
+	<script type="text/javascript" src="{% static 'textfit.js' %}"></script>
+	<script type="text/javascript">
+		
+		var count = 0;
+        function newQuestions(){
+
+			var cards = document.getElementsByClassName("card");
+			
+ 			for (var i = cards.length - 1; i >= 0; i--){
+ 				cards[0].parentNode.removeChild(cards[0]);
+ 			}
+
+ 			var cont = document.getElementById("answerContainer")
+ 			if (count == 0){
+ 				count++;
+ 				document.getElementById("questionText").innerHTML = "{{question2.title}}";
+ 				{% for answer in question2.answer_set.all %}
+ 				
+ 				var newElement = document.createElement("div");
+ 				newElement.setAttribute("class", "card");
+ 				newElement.setAttribute("id", "flip");
+ 				cont.appendChild(newElement);
+
+ 				var frontElement = document.createElement("div");
+ 				frontElement.setAttribute("class", "front");
+ 				frontElement.innerHTML = {{forloop.counter}};
+ 				newElement.appendChild(frontElement);
+
+ 				var backElement = document.createElement("div");
+ 				backElement.setAttribute("class", "back");
+ 				newElement.appendChild(backElement);
+
+ 				var answer = document.createElement("span");
+ 				answer.setAttribute("class", "answer");
+ 				answer.innerHTML = "{{answer}}";
+ 				backElement.appendChild(answer);
+
+ 				var value = document.createElement("span");
+ 				value.setAttribute("class", "answerValue");
+ 				value.innerHTML = "{{answer.value}}";
+ 				backElement.appendChild(value);
+	        {% endfor %}
+ 			} else{
+ 				document.getElementById("questionText").innerHTML = "{{question3.title}}";
+	 			{% for answer in question3.answer_set.all %}
+	 				
+	 				var newElement = document.createElement("div");
+	 				newElement.setAttribute("class", "card");
+	 				newElement.setAttribute("id", "flip");
+	 				cont.appendChild(newElement);
+
+	 				var frontElement = document.createElement("div");
+	 				frontElement.setAttribute("class", "front");
+	 				frontElement.innerHTML = {{forloop.counter}};
+	 				newElement.appendChild(frontElement);
+
+	 				var backElement = document.createElement("div");
+	 				backElement.setAttribute("class", "back");
+	 				newElement.appendChild(backElement);
+
+	 				var answer = document.createElement("span");
+	 				answer.setAttribute("class", "answer");
+	 				answer.innerHTML = "{{answer}}";
+	 				backElement.appendChild(answer);
+
+	 				var value = document.createElement("span");
+	 				value.setAttribute("class", "answerValue");
+	 				value.innerHTML = "{{answer.value}}";
+	 				backElement.appendChild(value);
+		        {% endfor %}
+		    }
+		}
+    </script>
+
+</body>
+</html>

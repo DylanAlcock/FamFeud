@@ -1,0 +1,54 @@
+<head>
+    <title>Fam Feud</title>
+    <link rel="stylesheet" href="{% static 'feud.css' %}">
+</head>
+<body>
+
+	<div class="bodyContainer">
+		
+		<div class="question">
+			<h1 class="questionText">{{question.title}}</h1>
+		</div>
+
+		<div class="answerBox">
+			{% for answer in question.answers.all %}
+				<div class="flip-box">
+  					<div class="flip-box-inner">
+						<span class="answerNumber">{{forloop.counter}}</span>
+	            		<span class="answer">{{answer}} {{answer.value}}</span>
+	            	</div>
+	            </div>
+	        {% endfor %}
+        </div>
+
+	</div>
+
+    <script type="text/javascript" src="{% static 'feud.js' %}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<div class="bodyContainer">
+		
+		<div class="question">
+			<h1 class="questionText">{{question.title}}</h1>
+		</div>
+		<div class="answerBox">
+			{% for answer in question.answers.all %}
+				<div class="flip-card" id="flip" onclick="flip(event)">
+  					<div class="flip-card-inner">
+						<div class="flip-card-front">{{forloop.counter}}</div>
+	            		<div class="flip-card-back">{{answer}} {{answer.value}}</div>
+	            	</div>
+	            </div>
+	        {% endfor %}
+        </div>
+
+	</div>
